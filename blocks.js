@@ -1,15 +1,8 @@
-/**
- * blocks.js
- * Definitions for custom Mars Rover Blockly blocks.
- */
-
-// Define color constants for consistent theming
 const ROVER_ACTION_COLOR = '#4CAF50';
 const ROVER_SENSOR_COLOR = '#E91E63';
 const ROVER_ANALYSIS_COLOR = '#9C27B0';
 const ROVER_MISSION_COLOR = '#FF9800';
 
-// 1. Block: Move Forward
 Blockly.Blocks['rover_move'] = {
   init: function() {
     this.jsonInit({
@@ -23,7 +16,6 @@ Blockly.Blocks['rover_move'] = {
   }
 };
 
-// 2. Block: Turn
 Blockly.Blocks['rover_turn'] = {
   init: function() {
     this.jsonInit({
@@ -47,7 +39,6 @@ Blockly.Blocks['rover_turn'] = {
   }
 };
 
-// 3. Block: Is Obstacle Ahead?
 Blockly.Blocks['rover_detect_obstacle'] = {
   init: function() {
     this.jsonInit({
@@ -60,7 +51,6 @@ Blockly.Blocks['rover_detect_obstacle'] = {
   }
 };
 
-// 4. Block: Analyze Terrain
 Blockly.Blocks['rover_analyze'] = {
   init: function() {
     this.jsonInit({
@@ -73,7 +63,6 @@ Blockly.Blocks['rover_analyze'] = {
   }
 };
 
-// 5. Block: Drill for Sample
 Blockly.Blocks['rover_drill'] = {
   init: function() {
     this.jsonInit({
@@ -87,7 +76,6 @@ Blockly.Blocks['rover_drill'] = {
   }
 };
 
-// 6. Block: Transmit Mission Data
 Blockly.Blocks['rover_transmit'] = {
   init: function() {
     this.jsonInit({

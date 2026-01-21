@@ -1,19 +1,7 @@
-/**
- * main.js
- * Entry point for Mars Rover Blockly Demo.
- * Functions are async to support visual delays/animations.
- */
-
-// =============================================================================
-// 1. GAME UTILS & STATE
-// =============================================================================
-
-// Helper: Async Wait
 function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// 5x5 Grid Data
 const grid = [
     ['empty', 'empty', 'empty', 'empty', 'empty'],
     ['empty', 'obstacle', 'empty', 'empty', 'empty'],
@@ -22,16 +10,14 @@ const grid = [
     ['empty', 'empty', 'empty', 'empty', 'target']
 ];
 
-// Rover State
 const roverState = {
     x: 0,
     y: 0,
     direction: 'E',
     sampleCollected: false,
-    revealedGrid: Array(5).fill().map(() => Array(5).fill(false)) // 5x5 False
+    revealedGrid: Array(5).fill().map(() => Array(5).fill(false)) 
 };
 
-// Logging Utils
 const outputLog = document.getElementById('outputLog');
 
 function logMission(message, type = 'normal') {
@@ -51,7 +37,6 @@ function logMission(message, type = 'normal') {
         entry.style.color = '#2196F3';
     }
     
-    // Add timestamp or icon?
     const icon = type === 'error' ? '❌' : type === 'success' ? '✅' : '➡️';
     entry.innerText = `${icon} ${message}`;
     
@@ -64,7 +49,6 @@ function clearLog() {
     if (outputLog) outputLog.innerHTML = '';
 }
 
-// UI Update
 function updateGridUI() {
     const gridContainer = document.getElementById('gridContainer');
     if (!gridContainer) return;
@@ -76,7 +60,6 @@ function updateGridUI() {
             const cell = document.createElement('div');
             cell.className = 'grid-cell';
             
-            // Render Elements
             if (grid[y][x] === 'obstacle') cell.classList.add('obstacle');
             
             if (grid[y][x] === 'target') {
@@ -87,7 +70,6 @@ function updateGridUI() {
                 }
             }
 
-            // Render Rover
             if (roverState.x === x && roverState.y === y) {
                 cell.classList.add('rover');
                 const arrows = { 'N': '⬆️', 'E': '➡️', 'S': '⬇️', 'W': '⬅️' };
@@ -99,15 +81,9 @@ function updateGridUI() {
     }
 }
 
-
-// =============================================================================
-// 2. ROVER ACTIONS (Async for Layout)
-// =============================================================================
-
 window.roverMove = async function() {
     logMission("Moving forward...", 'info');
     
-    // 1. Calculate Next Position
     let nextX = roverState.x;
     let nextY = roverState.y;
 
@@ -118,27 +94,24 @@ window.roverMove = async function() {
         case 'W': nextX--; break;
     }
 
-    // 2. Validate Bounds
     if (nextX < 0 || nextX > 4 || nextY < 0 || nextY > 4) {
         logMission("CRASH! Boundary detection alarm.", "error");
-        await wait(500); // Wait even on error for impact
+        await wait(500); 
         return;
     }
 
-    // 3. Validate Obstacles
     if (grid[nextY][nextX] === 'obstacle') {
         logMission("CRASH! Obstacle impact confirmed.", "error");
         await wait(500); 
         return;
     }
 
-    // 4. Update & Animate
     roverState.x = nextX;
     roverState.y = nextY;
     updateGridUI();
     
     logMission(`Position: (${roverState.x}, ${roverState.y}) Dir: ${roverState.direction}`);
-    await wait(600); // Animation Delay
+    await wait(600); 
 };
 
 window.roverTurn = async function(direction) {
@@ -161,7 +134,6 @@ window.roverTurn = async function(direction) {
 
 window.roverDetectObstacle = function() {
    
-    
     let checkX = roverState.x;
     let checkY = roverState.y;
 
@@ -173,9 +145,9 @@ window.roverDetectObstacle = function() {
     }
 
     let isObstacle = false;
-    // Check bounds (treat grid edge as obstacle? Optional. Lets say NO, just grid edge)
+    
     if (checkX < 0 || checkX > 4 || checkY < 0 || checkY > 4) {
-        isObstacle = true; // Safety logic
+        isObstacle = true; 
     } else {
         isObstacle = grid[checkY][checkX] === 'obstacle';
     }
@@ -185,9 +157,6 @@ window.roverDetectObstacle = function() {
 };
 
 window.roverAnalyze = function() {
-    // Analysis acts as a "move" in terms of turn time? 
-    // Keeping it sync to return value for Immediate use, 
-    // BUT we can trigger a visual effect.
     
     const tileType = grid[roverState.y][roverState.x];
     logMission(`Analzying: ${tileType.toUpperCase()}`);
@@ -201,7 +170,7 @@ window.roverAnalyze = function() {
 
 window.roverDrill = async function() {
     logMission("Deploying Drill...", 'info');
-    await wait(1000); // Drilling takes time
+    await wait(1000); 
 
     if (grid[roverState.y][roverState.x] === 'target') {
         roverState.sampleCollected = true;
@@ -220,7 +189,7 @@ window.roverTransmit = async function() {
     if (roverState.sampleCollected) {
         logMission("UPLINK ESTABLISHED. Data sent.", "success");
         await wait(500);
-        // Use a nicer looking alert or modal if possible, but basic alert is standard for "Level Complete"
+        
         alert("🎉 MISSION SUCCESS! \n\nWater Sample Recovered.\nData Transmitted.\n\nGood job, Commander!");
     } else {
         logMission("Uplink failed: No data payload.", "error");
@@ -228,12 +197,6 @@ window.roverTransmit = async function() {
     }
 };
 
-
-// =============================================================================
-// 3. INITIALIZATION
-// =============================================================================
-
-// Toolbox (Same as before)
 const toolboxXml = `
 <xml id="toolbox" style="display: none">
     <category name="Rover" colour="#4CAF50">
@@ -246,12 +209,12 @@ const toolboxXml = `
         <block type="rover_detect_obstacle"></block>
         <block type="rover_analyze"></block>
     </category>
-    <category name="Logic" colour="#5C81A6">
+    <category name="Logic" colour="blue">
         <block type="controls_if"></block>
         <block type="logic_compare"></block>
         <block type="text"></block> 
     </category>
-    <category name="Loops" colour="#5CA65C">
+    <category name="Loops" colour="black">
         <block type="controls_repeat_ext">
             <value name="TIMES">
                 <shadow type="math_number">
@@ -266,18 +229,15 @@ const toolboxXml = `
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // Initialize Blockly
     const workspace = Blockly.inject('blocklyDiv', {
         toolbox: toolboxXml,
         scrollbars: true,
         trashcan: true,
         zoom: { controls: true, wheel: true, startScale: 1.0, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2 },
-        // theme: Blockly.Themes.Dark 
     });
     logMission("System Online. Awaiting commands.");
     updateGridUI();
 
-    // Event Listeners
     document.getElementById('btnGenerate').addEventListener('click', () => {
         const code = javascript.javascriptGenerator.workspaceToCode(workspace);
         document.getElementById('codePreview').textContent = code;
@@ -288,13 +248,9 @@ document.addEventListener('DOMContentLoaded', () => {
         clearLog();
         logMission("--- MISSION START ---", 'info');
         
-        // Reset state slightly for re-runs? Or keep current? 
-        // Usually reruns happen from current spot unless Reset is hit.
-        
         const code = javascript.javascriptGenerator.workspaceToCode(workspace);
         
         try {
-            // Safe Async Eval
             const wrappedCode = `(async () => { 
                 try {
                     ${code} 
@@ -304,7 +260,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })();`;
             
-            // Execute
             eval(wrappedCode); 
             
         } catch (e) {
