@@ -59,8 +59,10 @@ This project implements **6 Custom Blocks** to solve the problem:
 [Check out the Live Demo here](#) *(Placeholder Link)*
 
 ## 📸 Screenshots
-![Workspace Screenshot](#) *(Placeholder)*
-![Grid Visualizer](#) *(Placeholder)*
+<img width="1914" height="956" alt="image" src="https://github.com/user-attachments/assets/a2f47935-01c2-49a6-951e-ccb4113110a8" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/9fceaa91-6d75-4ce2-b7d2-4963e0fa81ab" />
+
 
 ---
 *Created for Assignment: Blockly Custom Blocks Demo*
