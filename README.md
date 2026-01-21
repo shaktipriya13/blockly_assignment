@@ -55,8 +55,6 @@ This project implements **6 Custom Blocks** to solve the problem:
 -   [x] **Win Condition**: Mission Success alert triggers ONLY if sample is collected + transmitted.
 -   [x] **Fail Condition**: Drilling on empty ground or transmitting empty data logs errors.
 
-## 🌐 Live Demo
-[Check out the Live Demo here](#) *(Placeholder Link)*
 
 ## 📸 Screenshots
 <img width="1914" height="956" alt="image" src="https://github.com/user-attachments/assets/a2f47935-01c2-49a6-951e-ccb4113110a8" />
