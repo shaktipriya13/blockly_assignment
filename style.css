@@ -1,0 +1,304 @@
+/* ==========================================================================
+   Mars Rover Mission - Main Stylesheet
+   ========================================================================== */
+
+:root {
+    --primary-bg: #1e1e1e;
+    --panel-bg: #2d2d2d;
+    --text-color: #f0f0f0;
+    --accent-color: #4CAF50;
+    --accent-hover: #45a049;
+    --grid-border: #444;
+    --cell-bg: #333;
+    --font-heading: 1.25rem;
+    --font-body: 1rem;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--text-color);
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+    font-size: 16px; /* Base size */
+}
+
+/* Left Side: Blockly Workspace */
+#blocklyDiv {
+    width: 65%; /* Gave slightly more space to right panel if needed, but keeping balance */
+    height: 100%;
+    background-color: #fff; 
+}
+
+/* Right Side: Control & Visualizer */
+#rightPanel {
+    width: 35%;
+    height: 100%;
+    background-color: var(--panel-bg);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem; /* More padding */
+    border-left: 1px solid #444;
+    overflow-y: auto;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+}
+
+h2 {
+    margin-bottom: 1.2rem;
+    font-size: 1.4rem;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    text-align: center;
+    border-bottom: 2px solid #444;
+    padding-bottom: 0.5rem;
+}
+
+/* 5x5 Grid Visualizer */
+#gridContainer {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px; /* Larger gap */
+    width: 100%;
+    max-width: 400px; /* Prevent massive grid on huge screens */
+    margin: 0 auto 1.5rem auto; /* Center it */
+    aspect-ratio: 1;
+    background-color: #222 !important;
+    border: 3px solid #555 !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    border-radius: 8px;
+    padding: 6px;
+}
+
+.grid-cell {
+    background-color: #2d2d2d;
+    border: 2px solid #3d3d3d; /* Thicker borders */
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem !important; /* Larger Icons */
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* -- Rover Styling -- */
+.grid-cell.rover {
+    background-color: rgba(76, 175, 80, 0.3) !important;
+    box-shadow: inset 0 0 15px rgba(76, 175, 80, 0.6), 0 0 10px rgba(76, 175, 80, 0.4);
+    border: 2px solid #4CAF50;
+    transform: scale(1.05); /* Pop out slightly */
+    z-index: 10;
+}
+.grid-cell.rover::after { content: none !important; }
+
+/* -- Obstacle Styling -- */
+.grid-cell.obstacle {
+    background-color: #3e3e3e !important;
+}
+.grid-cell.obstacle::after {
+    content: '🪨' !important;
+    filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.6));
+}
+
+/* -- Target Styling -- */
+.grid-cell.target-revealed { 
+    background-color: rgba(33, 150, 243, 0.3) !important;
+    animation: pulse 1.5s infinite;
+}
+.grid-cell.target-revealed::after { 
+    content: '💧' !important;
+    filter: drop-shadow(0 0 8px #2196F3);
+}
+
+.grid-cell.target-collected {
+    background-color: rgba(255, 152, 0, 0.3) !important;
+}
+.grid-cell.target-collected::after {
+    content: '🧪' !important; 
+}
+
+/* Controls Section */
+.controls {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+button {
+    flex: 1;
+    padding: 1rem; /* Larger Click Area */
+    border: none;
+    border-radius: 6px;
+    background-color: var(--accent-color);
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.1s, background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+button:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0,0,0,0.3);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button.secondary { background-color: #555; }
+button.secondary:hover { background-color: #666; }
+
+/* Code Preview */
+.section-label {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-left: 4px solid var(--accent-color);
+    padding-left: 8px;
+}
+
+#codePreview {
+    width: 100%;
+    min-height: 120px;
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    padding: 1rem;
+    border-radius: 6px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 1rem; /* Larger Code Text */
+    line-height: 1.4;
+    overflow: auto;
+    margin-bottom: 1.5rem;
+    border: 1px solid #444;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+}
+
+/* Output Log */
+#outputLog {
+    flex: 1;
+    min-height: 200px;
+    background-color: #1a1a1a;
+    color: #00ff00; 
+    padding: 1rem;
+    border-radius: 6px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 1rem; /* Larger Log Text */
+    line-height: 1.5;
+    overflow-y: auto;
+    border: 1px solid #444;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+}
+
+.log-entry {
+    margin-bottom: 8px;
+    border-bottom: 1px solid #2a2a2a;
+    padding-bottom: 4px;
+}
+.log-error { color: #ff5252; font-weight: bold; }
+.log-success { color: #4CAF50; font-weight: bold; }
+
+/* -- Animations -- */
+@keyframes pulse {
+    0% { box-shadow: inset 0 0 0px rgba(33, 150, 243, 0.2); }
+    50% { box-shadow: inset 0 0 20px rgba(33, 150, 243, 0.6); }
+    100% { box-shadow: inset 0 0 0px rgba(33, 150, 243, 0.2); }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #222; }
+::-webkit-scrollbar-thumb { background: #555; border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #777; }
+
+/* ==========================================================================
+/* ==========================================================================
+   Blockly Toolbox Overrides (Professional Look)
+   ========================================================================== */
+
+/* 1. Main Container Background */
+.blocklyToolboxDiv, 
+.blocklyFlyoutBackground {
+    background-color: #f8f9fa !important; /* Cleaner light gray */
+    color: #000 !important;
+    border-right: 1px solid #dee2e6;
+}
+
+/* 2. Category Labels (The Text) */
+.blocklyTreeLabel, 
+.blocklyToolboxCategory .blocklyTreeLabel, 
+span.blocklyTreeLabel {
+    font-family: 'Segoe UI', Roboto, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: #000000 !important; /* Black as requested */
+    text-rendering: optimizeLegibility;
+}
+
+/* 3. Category Row (The Tab) */
+.blocklyTreeRow, 
+.blocklyToolboxCategory {
+    height: 50px !important; /* Taller click area */
+    line-height: 50px !important;
+    margin-bottom: 12px !important; /* Proper spacing between items */
+    padding-left: 20px !important; /* Indent text */
+    
+    /* Decoration */
+    border-radius: 0 25px 25px 0; /* Modern pill shape */
+    margin-right: 15px; /* Pull away from edge */
+    
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+/* 4. Hover State */
+.blocklyTreeRow:not(.blocklyTreeSelected):hover,
+.blocklyToolboxCategory:not(.blocklyTreeSelected):hover {
+    background-color: #e9ecef !important;
+    transform: translateX(4px); /* Subtle interaction */
+}
+
+/* 5. Selected State */
+.blocklyTreeSelected,
+.blocklyToolboxCategory[aria-selected="true"] {
+    background-color: #ffffff !important;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+    border-left : 4px solid #4CAF50 !important; /* Accent color indicator */
+    color: #000 !important;
+}
+
+/* 6. Icons/Color Strips (If present) */
+.blocklyTreeIcon,
+.blocklyToolboxIcon {
+    visibility: visible !important;
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 50%; /* Make square icons circular */
+    margin-right: 12px !important;
+    background-image: none !important; /* Remove older sprites if any */
+}
+
+/* Force override any inherited color - REMOVED TO FIX TEXT VISIBILITY */
+/* .blocklyTreeRow * { color: inherit !important; } */
+
+/* Hide default borders or weird legacy styling */
+.blocklyTreeSeparator {
+    border-bottom: none !important;
+    margin: 10px 0 !important;
+}
+
