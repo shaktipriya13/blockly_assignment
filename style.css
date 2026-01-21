@@ -282,3 +282,6 @@ span.blocklyTreeLabel,
     #blocklyDiv { width: 100%; height: 60%; }
     #rightPanel { width: 100%; height: 40%; padding: 1rem; }
 }
+.blocklyToolboxCategoryLabel {
+    color: #000000 !important;
+}
