@@ -57,7 +57,8 @@ This project implements **6 Custom Blocks** to solve the problem:
 
 
 ## 📸 Screenshots
-<img width="1914" height="956" alt="image" src="https://github.com/user-attachments/assets/a2f47935-01c2-49a6-951e-ccb4113110a8" />
+<img width="1917" height="872" alt="image" src="https://github.com/user-attachments/assets/8a1eb2b8-9313-4fa5-a577-d0941be7c275" />
+
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/9fceaa91-6d75-4ce2-b7d2-4963e0fa81ab" />
 
